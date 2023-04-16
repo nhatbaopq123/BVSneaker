@@ -1,0 +1,70 @@
+﻿@model IEnumerable<BVSneaker.Models.EF.Product>
+
+
+@if (Model != null && Model.Any())
+{
+    <div class="row">
+        <div class="col text-center">
+            <div class="section_title new_arrivals_title">
+                <h2>Best Sellers</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="product_slider_container">
+                <div class="owl-carousel owl-theme product_slider">
+
+                    @foreach (var item in Model)
+                    {
+                        var strImg = "";
+                        var img = item.ProductImage.FirstOrDefault(x => x.isDefault);
+                        if (img != null)
+                        {
+                            strImg = img.Image;
+                        }
+                        <div class="owl-item product_slider_item">
+                            <div class="product-item">
+                                <div class="product">
+                                    <div class="product_image">
+                                        <a href="/detail/@item.Alias-p@(item.Product_Id)">
+                                            <img src="@strImg" alt="@item.Name">
+                                        </a>
+                                    </div>
+                                    <div class="product_info mt-2">
+                                        <p>@item.Brand.Name</p>
+                                        <h6 class="product_name"><a href="/detail/@item.Alias-p@(item.Product_Id)">@item.Name</a></h6>
+                                        <p style="font-size:10px !important">@item.Category.Name</p>
+                                        @if (item.ProductStock.Count() > 1)
+                                        {
+                                            <div class="product_price">$@item.ProductStock.FirstOrDefault().Price - $@item.ProductStock.LastOrDefault().Price</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="product_price">$@item.ProductStock.FirstOrDefault().Price</div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="red_button add_to_cart_button"><a href="/detail/@item.Alias-p@(item.Product_Id)" @*class="btnAddToCart" data-id="@item.Product_Id"*@>view</a></div>
+                        </div>
+                    }
+                    <!-- Slide 1 -->
+                    <!-- Slide 2 -->
+                </div>
+                <!-- Slider Navigation -->
+
+                <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </div>
+                <div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <h1>NULL</h1>
+}

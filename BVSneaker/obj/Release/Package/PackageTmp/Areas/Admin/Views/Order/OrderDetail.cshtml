@@ -1,0 +1,97 @@
+﻿@model BVSneaker.Models.EF.Order
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Order Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/Admin/Home" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/Admin/Order" class="nav-link">Orders List</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Order Detail</a>
+        </li>
+    </ul>
+}
+
+<!-- Main content -->
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="font-weight-bold">Orders List</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Order ID</label>
+                        <p class="form-control">@Model.Order_Id</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Total Amount</label>
+                        <p class="form-control">$@Model.TotalAmount.ToString("0.00")</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Order Date</label>
+                        <p class="form-control">@Model.CreateDate</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Paid:</label><br />
+                        <span class="rounded p-2 @(Model.IsPaid == false ? "bg-danger" : "bg-success")">@(Model.IsPaid == false ? "Not yet" : "Already")</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Customer Name</label>
+                        <p class="form-control">@Model.CustomerName</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <p class="form-control">@Model.Phone</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <p class="form-control">@Model.Email</p>
+                    </div>
+                </div>
+                <div style="margin-left: 8px" class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Address</label>
+                            <p class="form-control">@Model.Address</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:90px;" class="row">
+                    <div class="col-12">
+                        <h4>Product List</h4>
+                    </div>
+                    <div class="col-12">
+                        @Html.Action("Partial_Product", "Order", new { id = Model.Order_Id })
+                    </div>
+                </div>
+            </div>
+                <div class="card-footer"></div>
+            </div>
+</section>
+<!-- /.content -->

@@ -1,0 +1,39 @@
+﻿@model BVSneaker.Models.EF.Blog
+@{
+    ViewBag.Title = "Detail";
+}
+
+<section class="section wb" style="margin-top:150px !important">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="page-wrapper">
+                    <div class="blog-title-area text-center">
+                        <ol class="breadcrumb hidden-xs-down">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/blogs">Blog</a></li>
+                            <li class="breadcrumb-item active">@Model.Title</li>
+                        </ol>
+
+                        <h3>@Model.Title</h3>
+
+                        <div class="blog-meta big-meta">
+                            <small>@String.Format("{0:dd MMM yyyy}", Model.ModDate)</small>
+                            <small>@Model.Author</small>
+                        </div><!-- end meta -->
+                    </div><!-- end title -->
+
+                    <div class="single-post-media" style="margin:30px !important">
+                        <img src="@Model.CoverImage" alt="" class="img-fluid">
+                    </div><!-- end media -->
+
+                    <div class="blog-content">
+                        @Html.Raw(Model.Content)
+                    </div><!-- end content -->
+                </div><!-- end page-wrapper -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section>
+
+

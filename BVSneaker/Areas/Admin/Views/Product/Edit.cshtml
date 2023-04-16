@@ -1,0 +1,138 @@
+﻿        @model BVSneaker.Models.EF.Product
+        @{
+            ViewBag.Title = "Edit Product";
+            Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+        }
+
+        @section naviheader{
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/Admin/Home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/Admin/Brand" class="nav-link">Product</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link">Edit</a>
+                </li>
+            </ul>
+        }
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Edit Product</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Product</a></li>
+                            <li class="breadcrumb-item active">Edit</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Product Infomation</h3>
+
+                    @*<div class="card-tools">
+                            <a href="/menu/add" class="btn btn-primary">Thêm mới</a>
+                        </div>*@
+                </div>
+                <div class="card-body">
+                    <div class="card-body p-0">
+                        @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(x => x.Product_Id)
+                            @Html.HiddenFor(x => x.CreateDate)
+                            <!-- your steps content here -->
+
+                            <div class="card">
+                                <div class="card-header p-2">
+                                    <ul class="nav nav-pills">
+                                        <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">General Infomation</a></li>
+                                    </ul>
+                                </div><!-- /.card-header -->
+                                <div class="card-body">
+                                    <div class="tab-content">
+                                        <div class="active tab-pane" id="activity">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="exampleInputEmail1">Product Name</label>
+                                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Example: New.." })
+                                                    @Html.ValidationMessageFor(x => x.Name, null, new { @class = "text-danger" })
+                                                    <br />
+                                                    <label for="exampleInputEmail1">Description</label>
+                                                    @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @id = "txtDes" })
+                                                    @Html.ValidationMessageFor(x => x.Description, null, new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4" style="padding:20px;">
+                                                    <label for="exampleInputEmail1">Product Brand</label>
+                                                    @Html.DropDownListFor(x => x.Brand_Id, ViewBag.Brand as SelectList, "-Select product's brand-", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(x => x.Brand_Id, null, new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-lg-4" style="padding:20px;">
+                                                    <label for="exampleInputEmail1">Product Topic</label>
+                                                    @Html.DropDownListFor(x => x.Topic_Id, ViewBag.Topic as SelectList, "-Select product's topic-", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(x => x.Topic_Id, null, new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-lg-4" style="padding:20px;">
+                                                    <label for="exampleInputEmail1">Product Category</label>
+                                                    @Html.DropDownListFor(x => x.Category_Id, ViewBag.Category as SelectList, "-Select product's category-", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(x => x.Category_Id, null, new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <!-- /.post -->
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                    </div>
+                                    <!-- /.tab-content -->
+                                </div><!-- /.card-body -->
+                                <div class="form-group">
+                                    <a href="/Admin/Product" class="btn btn-danger">Back</a>
+                                    <button type="submit" class="btn btn-success">Edit Product</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+        </section>
+        <!-- /.content -->
+        @section scripts{
+            <script>
+                $(document).ready(function () {
+                    CKEDITOR.replace('txtDes', {
+                        customConfig: '/content/ckeditor/config.js',
+                        extraAllowedContent: 'span',
+                    });
+                    $('body').on('click', '.btnDelete', function () {
+                        var conf = confirm('Do you want to delete this image?');
+                        if (conf === true) {
+                            var _id = $(this).data('id');
+                            $('#trow_' + _id).remove();
+                            var temp = $('#tCurrentId').val();
+                            var currentId = parseInt(temp) - 1;
+                            $('#tCurrentId').val(currentId);
+                        }
+                    });
+                });
+            </script>
+        }

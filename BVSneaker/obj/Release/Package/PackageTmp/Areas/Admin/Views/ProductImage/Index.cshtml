@@ -1,0 +1,98 @@
+﻿@model IEnumerable <BVSneaker.Models.EF.ProductImage>
+@{
+    ViewBag.Title = "Product Images";
+    Layout = "~/Areas/Admin/Views/Shared/_EmptyLayout.cshtml";
+}
+<style>
+    .glImage {
+        margin: 0;
+        padding: 0;
+    }
+
+        .glImage li {
+            display: inline-block;
+            margin: 20px;
+        }
+</style>
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-tools">
+                <button type="button" class="btn btn-danger">
+                    Delete All
+                </button>
+                <button type="button" class="btn btn-success" value="Choose File" onclick="BrowseServer()">
+                    Add Image
+                </button>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <ul class="glImage">
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <li id="trow_@item.Image_Id">
+                            <div>
+                                <img src="@item.Image" width="200" height="200" />
+                                <div class="box-btn">
+                                    <a href="#" data-id="@item.Image_Id" class="btn btn-sm btn-danger btnDelete"><i class="fa fa-trash"></i></a>
+                                    @if (item.isDefault)
+                                    {
+                                        <a href="#" data-id="@item.Image_Id" class="btn btn-sm btn-primary btn-Default"><i class="fa fa-check"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" data-id="@item.Image_Id" class="btn btn-sm btn-primary btn-Default"><i class="fa fa-times"></i></a>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+<script>
+    function BrowseServer(field) {
+        var finder = new CKFinder();
+        finder.selectActionFunction = function (fileUrl) {
+            debugger;
+            AddImage(@ViewBag.productId, fileUrl);
+            };
+        finder.popup();
+    }
+    function AddImage(id, url) {
+        $.ajax({
+            url: '/admin/productimage/addimage',
+            type: 'POST',
+            data: { productId: id, url: url },
+            success: function (rs) {
+                if (rs.success) {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+    $(document).ready(function () {
+        $('body').on('click', '.btnDelete', function () {
+            var id = $(this).data('id');
+            var conf = confirm('Do you want to delete this image?')
+            if (conf === true) {
+                $.ajax({
+                    url: '/admin/productimage/delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            $('#trow_' + id).remove();
+                        }
+                    }
+                });
+            }
+        });
+
+    });
+</script>

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<BVSneaker.Models.EF.Brand>
+
+<div class="owl-carousel" style="margin-top:80px">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="item" style="width:180px">
+                <a href="/brand/@item.Alias-@item.Brand_Id">
+                    <img src="@item.Image" />
+                </a>
+            </div>
+        }
+    }
+</div>

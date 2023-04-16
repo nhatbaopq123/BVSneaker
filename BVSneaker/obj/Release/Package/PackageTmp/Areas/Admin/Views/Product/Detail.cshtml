@@ -1,0 +1,255 @@
+﻿@model BVSneaker.Models.EF.Product
+@{
+    ViewBag.Title = "Product Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .box-shadow-custom {
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        padding: 20px
+    }
+</style>
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/Admin/Home" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/Admin/Product" class="nav-link">Product</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Detail</a>
+        </li>
+    </ul>
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Product Detail</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Product</a></li>
+                    <li class="breadcrumb-item active">Detail</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Product Infomation</h3>
+
+            @*<div class="card-tools">
+                    <a href="/menu/add" class="btn btn-primary">Thêm mới</a>
+                </div>*@
+        </div>
+        <div class="card-body">
+            <div class="card-body p-0">
+                @if (Model != null)
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <img class="imgproduct" data-id="@Model.Product_Id" src="@Model.ProductImage.FirstOrDefault(x=>x.isDefault).Image" width="160" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="row">
+                                        <h3>@Model.Name</h3>
+                                    </div>
+                                    <div class="row">
+                                        <label for="exampleInputEmail1">Product Brand: &nbsp;</label>
+                                        <p>@Model.Brand.Name</p>
+                                    </div>
+                                    <div class="row">
+                                        <label for="exampleInputEmail1">Product Topic: &nbsp;</label>
+                                        <p>@Model.Topic.Title</p>
+                                    </div>
+                                    <div class="row">
+                                        <label for="exampleInputEmail1">Product Category: &nbsp;</label>
+                                        <p>@Model.Category.Name</p>
+                                    </div>
+                                    <div class="row">
+                                        <label for="exampleInputEmail1">Create date: &nbsp;</label>
+                                        <p>@Model.CreateDate</p>
+                                    </div>
+                                    <div class="row">
+                                        <label for="exampleInputEmail1">Modified date: &nbsp;</label>
+                                        <p>@Model.ModDate</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label for="exampleInputEmail1">Description</label>
+                                    <p>@Html.Raw(Model.Description)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <div class="box-shadow-custom sticky-top">
+                                <div class="row">
+                                    @{
+                                        var strCheckHome = Model.isHome ? "<i class ='fa fa-check text-success'></i>" : "<i class ='fa fa-times text-danger'></i>";
+                                        var strCheckHot = Model.isHot ? "<i class ='fa fa-check text-success'></i>" : "<i class ='fa fa-times text-danger'></i>";
+                                        var strCheckBestSeller = Model.isBestSeller ? "<i class ='fa fa-check text-success'></i>" : "<i class ='fa fa-times text-danger'></i>";
+                                    }
+                                    <label>Display</label>
+                                    <table class="table table-condensed table-responsive">
+                                        <tr>
+                                            <th>IsHome</th>
+                                            <th>IsHot</th>
+                                            <th>IsBestSeller</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <a href="#" data-id="@Model.Product_Id" class="btnHome">@Html.Raw(strCheckHome)</a>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="#" data-id="@Model.Product_Id" class="btnHot">@Html.Raw(strCheckHot)</a>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="#" data-id="@Model.Product_Id" class="btnBestSeller">@Html.Raw(strCheckBestSeller)</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <label>Stock</label>
+                                    <br />
+                                    <table class="table table-condensed table-responsive">
+                                        @if (Model.ProductStock != null && Model.ProductStock.Any())
+                                        {
+                                            <tr>
+                                                <th>Size</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                            </tr>
+                                            foreach (var item in Model.ProductStock)
+                                            {
+                                                <tr id="trow_@item.Stock_Id" class="text-center">
+                                                    <td>@item.Size</td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>$@item.Price</td>
+                                                    <td>
+                                                        <a href="#" data-id="@item.Stock_Id" class="btn btn-sm btn-danger btnDelete">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>This product hasn't has stock yet. Please add product stock</tr>
+                                        }
+                                    </table>
+                                    <a href=" @Url.Action("AddStock", "ProductStock", new { id = Model.Product_Id}, null)" class="btn btn-primary">Add Stock</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</section>
+
+<!-- /.content -->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data("id");
+                var conf = confirm('Do you want to delete this record?')
+                if (conf === true) {
+                    $.ajax({
+                        url: '/admin/productstock/delete',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('#trow_' + id).remove(); l
+                            }
+                        }
+                    })
+                }
+            });
+            $('body').on('click', '.btnHome', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var id = btn.data("id");
+                $.ajax({
+                    url: '/admin/product/isHome',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            if (rs.isHome) {
+                                btn.html("<i class='fa fa-check text-success'></i>");
+                            } else {
+                                btn.html("<i class ='fa fa-times text-danger'></i>");
+                            }
+
+                        }
+                    }
+                });
+            });
+            $('body').on('click', '.btnHot', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var id = btn.data("id");
+                $.ajax({
+                    url: '/admin/product/isHot',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            if (rs.isHot) {
+                                btn.html("<i class='fa fa-check text-success'></i>");
+                            } else {
+                                btn.html("<i class ='fa fa-times text-danger'></i>");
+                            }
+
+                        }
+                    }
+                });
+            });
+            $('body').on('click', '.btnBestSeller', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var id = btn.data("id");
+                $.ajax({
+                    url: '/admin/product/isBestSeller',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            if (rs.isBestSeller) {
+                                btn.html("<i class='fa fa-check text-success'></i>");
+                            } else {
+                                btn.html("<i class ='fa fa-times text-danger'></i>");
+                            }
+
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

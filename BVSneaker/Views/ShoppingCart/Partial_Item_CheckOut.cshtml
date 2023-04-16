@@ -1,0 +1,47 @@
+﻿@model IEnumerable<BVSneaker.Models.ShoppingCartItem> 
+@if (Model != null && Model.Any())
+{
+    decimal shippingfee = 0.0m;
+    <h4>Bag<span style="float:right"><small>Item(s): @Model.Count()</small></span></h4>
+    var tongtien = decimal.Zero;
+    <div style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding: 30px;">
+        @foreach (var item in Model)
+        {
+            tongtien += item.TotalPrice;
+            <div class="row text-left">
+                <div class="col-3" style="padding-left: 0px !important; padding-right:0px !important"><img width="50" src="@item.ProductImg" alt="@item.ProductName" /></div>
+                <div class="col-md-6">@item.ProductName @item.Stock x @item.Quantity</div>
+                <div class="col-3">$@((item.Price*item.Quantity).ToString("0.00"))</div>
+
+            </div>
+        }
+        <div class="row mt-4">
+            <div class="col-md-8 font-weight-bold">SubTotal:</div>
+            <div class="col-md-4 font-weight-bold">$@tongtien.ToString("0.00")</div>
+        </div>
+        @if (tongtien < 50)
+        {
+            shippingfee = 17.99m;
+        }
+        else
+        {
+            shippingfee = 0.00m;
+        }
+        @{tongtien += shippingfee;}
+        <div class="row mt-4">
+            <div class="col-md-8 font-weight-bold">Shipping fee:</div>
+            <div class="col-md-4 font-weight-bold">$@shippingfee</div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-8 font-weight-bold">Total:</div>
+            <div class="col-md-4 font-weight-bold">$@tongtien</div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-outline-danger">Place Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<BVSneaker.Models.ShoppingCartItem>
+<style>
+    .disable-select {
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+    }
+</style>
+@if (Model != null && Model.Any())
+{
+    var i = 0;
+    var tongtien = decimal.Zero;
+    <div style="display: flex;">
+        <h3 class="mb-4 mt-0">Your Cart</h3>
+     
+    </div>
+    <table class="table">
+        <tr class="text-center">
+            <th>Order</th>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            tongtien += item.TotalPrice;
+            <tr class="text-center" id="trow_@item.ProductId">
+                <td>@(i + 1)</td>
+                <td><a href="/detail/@item.ProductAlias-p@(item.ProductId)"><img class="product-image" width="60px" src="@item.ProductImg" alt="@item.ProductName" /></a></td>
+                <td><a href="/detail/@item.ProductAlias-p@(item.ProductId)" style="color:black">@item.ProductName <span id="Stock_@item.ProductId">@item.Stock</span></a></td>
+                <td>@item.CategoryName</td>
+                <td>$@item.Price.ToString("0.00")</td>
+                <td>
+                    <input type="number" min="1" max="6" onkeydown="return false" inputmode="numeric" value="@item.Quantity" class="form-control disable-select" id="Quantity_@item.ProductId" style="width: 60px; text-align: center" />
+                </td>
+                @if (item.TotalPrice == 0) { item.TotalPrice = item.Price; }
+                <td>$@item.TotalPrice.ToString("0.00")</td>
+                <td colspan="2">
+                    <a href="#" class="btn hover-red-button btnDelete" data-id="@item.ProductId"><i class="fa fa-times"></i></a>
+                    <a href="#" class="btn hover-red-button btnUpdate" data-id="@item.ProductId"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+            i++;
+        }
+        <tr>
+            <th colspan="6" class="text-right">Total: </th>
+            <th class="text-center">$@tongtien.ToString("0.00")</th>
+        </tr>
+        <tr>
+            <th>
+                <a href="#" class="btn btn-lg btn-outline-danger btnDeleteAll"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </th>
+            <th colspan="7" class="text-right"></th>
+            <th class="text-center">
+                <a href="/check-out"  class="btn btn-outline-danger" style="margin-left:-65px">Proceed to Checkout</a>
+            </th>
+        </tr>
+    </table>
+}
+else
+{
+    <h2>Your Cart is empty. <a href="/">Buy something</a></h2>
+}

@@ -1,0 +1,64 @@
+﻿@model BVSneaker.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="card-body login-card-body">
+    <p class="login-box-msg">Sign in to start your session</p>
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true);
+        <div class="input-group mb-3">
+            @*<input type="email" class="form-control" placeholder="Email">*@
+            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "User" })
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            @*<input type="password" class="form-control" placeholder="Password">*@
+            @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @type = "password", @placeholder = "Password", @id = "password-field" })
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span toggle="#password-field" class="fas fa-eye toggle-password"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="icheck-primary">
+                    @Html.CheckBoxFor(x => x.RememberMe, new { @id = "remember" })
+                    <label for="remember">
+                        Remember Me
+                    </label>
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </div>
+            <!-- /.col -->
+        </div>
+    }
+    <!-- /.social-auth-links -->
+
+    <p class="mb-1">
+        <a href="forgot-password.html">I forgot my password</a>
+    </p>
+</div>
+@section scripts{
+    <script>$(".toggle-password").click(function () {
+
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });</script>
+}

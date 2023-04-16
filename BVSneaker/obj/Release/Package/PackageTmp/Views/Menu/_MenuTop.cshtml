@@ -1,0 +1,13 @@
+﻿@model IEnumerable<BVSneaker.Models.EF.Menu>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <li class="navbar_menu"><a href="/@item.Alias">@item.Title</a></li>
+    }
+}
+else
+{
+    <li class="navbar_menu"><a href="">NULL</a></li>
+}

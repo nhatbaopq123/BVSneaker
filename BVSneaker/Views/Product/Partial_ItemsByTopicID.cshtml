@@ -1,0 +1,43 @@
+﻿@model IEnumerable<BVSneaker.Models.EF.Product>
+<style>
+</style>
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        var strImg = "";
+        var img = item.ProductImage.FirstOrDefault(x => x.isDefault);
+        if (img != null)
+        {
+            strImg = img.Image;
+        }
+        <div class="product-item @item.Topic.Alias">
+            <div class="product">
+                <div class="product_image">
+                    <a href="/detail/@item.Alias-p@(item.Product_Id)">
+                        <img src="@strImg" alt="@item.Name">
+                    </a>
+                </div>
+                <div class="product_info mt-2">
+                    <p>@item.Brand.Name</p>
+                    <h6 class="product_name"><a href="/detail/@item.Alias-p@(item.Product_Id)">@item.Name</a></h6>
+                    <p style="font-size:13px !important">@item.Category.Name</p>
+                    @if (item.ProductStock.Count() > 1)
+                    {
+                        <div class="product_price">$@item.ProductStock.FirstOrDefault().Price - $@item.ProductStock.LastOrDefault().Price</div>
+                    }
+                    else
+                    {
+                        <div class="product_price">$@item.ProductStock.FirstOrDefault().Price</div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="red_button add_to_cart_button"><a href="/detail/@item.Alias-p@(item.Product_Id)" @*class="btnAddToCart" data-id="@item.Product_Id"*@>view</a></div>
+
+    }
+}
+else
+{
+    <h1>NULL</h1>
+}

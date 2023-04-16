@@ -1,0 +1,24 @@
+﻿@model IEnumerable<BVSneaker.Models.EF.Topic>
+
+@if (Model != null && Model.Any())
+{
+    var count_topic = 1;
+    foreach (var item in Model)
+    {
+        if (count_topic <= 3)
+        {
+            <div class="col-md-4">
+                <div class="banner_item align-items-center" style="background-image:url(@item.Image">
+                    <div class="banner_category">
+                        <a href="/topic/@item.Alias-@item.Topic_Id">@item.Title</a>
+                    </div>
+                </div>
+            </div>
+            count_topic++;
+        }
+        else
+        {
+            break;
+        }
+    }
+}

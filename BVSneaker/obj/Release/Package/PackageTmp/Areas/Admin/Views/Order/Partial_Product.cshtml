@@ -1,0 +1,30 @@
+﻿@model IEnumerable<BVSneaker.Models.EF.OrderDetail>
+
+@if (Model != null && Model.Any())
+{
+    var i = 0;
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(i+1)</td>
+                    <td>@item.Product.Brand.Name @item.Product.Name</td>
+                    <td>$@item.Price.ToString("0.00")</td>
+                    <td>@item.Quanity</td>
+                    <td>$@((item.Price*item.Quanity).ToString("0.00"))</td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+}   

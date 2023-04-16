@@ -1,0 +1,133 @@
+﻿<!-- Sidebar -->
+<div class="sidebar">
+    <!-- Sidebar user (optional) -->
+    @*<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="~/Content/clients/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">Alexander Pierce</a>
+            </div>
+        </div>*@
+
+    <!-- SidebarSearch Form -->
+    @*<div class="form-inline">
+            <div class="input-group" data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </div>*@
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+            with font-awesome or any other icon font library -->
+            <li class="nav-item">
+                <a href="/Admin/Menu" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        Menu
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Admin/Advertisement" class="nav-link">
+                    <i class="nav-icon fas fa-ad"></i>
+                    <p>
+                        Advertisement
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Admin/Brand" class="nav-link">
+                    <i class="nav-icon fas fa-copy"></i>
+                    <p>
+                        Brand
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Admin/Category" class="nav-link">
+                    <i class="nav-icon fas fa-clipboard-list"></i>
+                    <p>
+                        Categories
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Admin/Topic" class="nav-link">
+                    <i class="nav-icon fas fa-tree"></i>
+                    <p>
+                        Topic
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Admin/Order" class="nav-link">
+                    <i class="nav-icon fas fa-box-archive"></i>
+                    <p>
+                        Order
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Admin/Product" class="nav-link">
+                    <i class="nav-icon fas fa-bottle-droplet"></i>
+                    <p>
+                        Product
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Admin/BLog" class="nav-link">
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>
+                        Blog
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="/Admin/Role" class="nav-link">
+                    <i class="nav-icon fas fa-bars"></i>
+                    <p>
+                        Role
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/Admin/Account" class="nav-link">
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>
+                        Account
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item mt-xl-5">
+                <a href="javascript:document.getElementById('logOffForm').submit()" class="nav-link">
+                    <i class="nav-icon fas fa-right-from-bracket"></i>
+                    <p>
+                        Sign Out
+                    </p>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->
+
+@if (Request.IsAuthenticated)
+{
+    <div style="display:none">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+        {
+            @Html.AntiForgeryToken()
+        }
+    </div>
+}

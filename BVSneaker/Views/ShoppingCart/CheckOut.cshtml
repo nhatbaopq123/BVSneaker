@@ -1,0 +1,123 @@
+﻿@model BVSneaker.Models.OrderViewModel
+@{
+    ViewBag.Title = "Check Out";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<style>
+    .error {
+        color: red;
+    }
+</style>
+
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center mb-2">
+                <ul>
+                    <li><a href="/Home">Home</a></li>
+                    <li class="active"><a href="/shopping-cart"><i class="fa fa-angle-right" aria-hidden="true"></i>Shopping Cart</a></li>
+                    <li class="active"><a href="/"><i class="fa fa-angle-right" aria-hidden="true"></i>Check Out</a></li>
+                </ul>
+            </div>
+            <!-- Main Content -->
+
+            <div class="main_content">
+                @if (ViewBag.CheckCart != null)
+                {
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h2>Check out</h2>
+                            <p>Please check your order info</p>
+                        </div>
+                    </div>
+                    using (Ajax.BeginForm("CheckOut", "ShoppingCart", new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "load_data",
+                        OnComplete = "OnSuccessCO",
+                        OnFailure = "OnFailure"
+
+                    }, new { @Id = "myForm" }))
+                    { 
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div id="show_success"></div>
+                            <div class="col-md-8">
+                                <h4>Personal Info</h4>
+                                <div style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; padding:20px;">
+                                    <div class="form-group">
+                                        <label for="CustomerName">Full Name</label>
+                                        <input type="text" name="CustomerName" required class="form-control"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Phone">Mobile Number</label>
+                                        <input type="text" name="Phone" required class="form-control"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Email">E-mail</label>
+                                        <input type="email" name="Email" required class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Address">Address</label>
+                                        <input type="text" name="Address" required class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PaymentMethod">Payment method</label>
+                                        <select class="form-control" name="PaymentMethod">
+                                            <option value="COD" selected>COD</option>
+                                            <option value="Bank">Bank</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 class="mt-3 pos-right" style="position: relative; left:0; font-weight: lighter"><span><</span> <a style="color: black; text-decoration: underline;" href="/shopping-cart">Back to Cart</a></h5>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.Action("Partial_Item_CheckOut", "ShoppingCart")
+                            </div>
+                        </div>
+                                }
+                            }
+                            else
+                            {
+                    <h2>Your cart is empty. <a href="/">Buy something</a></h2>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        function OnFailure(rs) {
+            if (!rs.Success) {
+                $('#show_success').html("There's an issue while process. Please try again")
+            }
+        }
+        $(document).ready(function () {
+            $('#myForm').validate({
+                rules: {
+                    'CustomerName': { required: true },
+                    'Phone': { required: true },
+                    'Address': { required: true },
+                    'Email': { required: true },
+                },
+                messages: {
+                    'CustomerName': 'Please fill your full name',
+                    'Phone': 'Please fill your phone number',
+                    'Address': 'Please fill your address',
+                    'Email': 'Your e-mail is invalid, please check again',
+                }
+            });
+        });
+    </script>
+}
+
+
+
+

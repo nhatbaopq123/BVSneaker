@@ -1,0 +1,17 @@
+﻿@model IEnumerable<BVSneaker.Models.EF.Topic> 
+@if (Model != null && Model.Any())
+{
+    <ul class="sidebar_categories">
+        @foreach (var item in Model)
+        {
+            if (ViewBag.TopicId == item.Topic_Id)
+            {
+                <li class="active"><a href="/topic/@item.Alias-@item.Topic_Id"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>@item.Title</a></li>
+            }
+            else
+            {
+                <li><a href="/topic/@item.Alias-@item.Topic_Id">@item.Title</a></li>
+            }
+        }
+    </ul>
+}
